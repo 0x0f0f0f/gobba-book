@@ -11,21 +11,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         
@@ -35,7 +35,7 @@
     <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
-            var path_to_root = "";
+            var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "light";
         </script>
 
@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded "><a href="install.html"><strong aria-hidden="true">1.</strong> Installation</a></li><li class="expanded "><a href="basics.html" class="active"><strong aria-hidden="true">2.</strong> The Basics</a></li><li class="expanded "><a href="stdlib.html"><strong aria-hidden="true">3.</strong> The Standard Library</a></li><li class="expanded "><a href="ocaml.html"><strong aria-hidden="true">4.</strong> Calling Gobba from OCaml</a></li></ol>
+                <ol class="chapter"><li class="expanded "><a href="../install.html"><strong aria-hidden="true">1.</strong> Installation</a></li><li class="expanded "><a href="../basics/index.html" class="active"><strong aria-hidden="true">2.</strong> The Basics</a></li><li><ol class="section"><li class="expanded "><a href="../basics/purity.html"><strong aria-hidden="true">2.1.</strong> Purity and IO</a></li></ol></li><li class="expanded "><a href="../stdlib.html"><strong aria-hidden="true">3.</strong> The Standard Library</a></li><li class="expanded "><a href="../ocaml.html"><strong aria-hidden="true">4.</strong> Calling Gobba from OCaml</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -116,7 +116,7 @@
                         <h1 class="menu-title">The Gobba Programming Language Handbook</h1>
 
                         <div class="right-buttons">
-                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <a href="../print.html" title="Print this book" aria-label="Print this book">
                                 <i id="print-button" class="fa fa-print"></i>
                             </a>
                             
@@ -314,10 +314,6 @@ Dict:haskey &quot;newkey&quot; m (* =&gt; true *)
 Dict:foldl (fun x y -&gt; x + y) 0 m;
 Dict:foldr (fun x y -&gt; x - y) 10 m;
 </code></pre>
-<h2><a class="header" href="#primitives-and-printing" id="primitives-and-printing">Primitives and printing</a></h2>
-<p>The impure primitives <code>IO:print</code> and <code>IO:print_endline</code> automatically call <code>show</code> on a
-value. The difference between them is that <code>IO:print_endline</code> automatically adds a
-newline at the end of the line.</p>
 <h2><a class="header" href="#haskell-like-dollar-syntax" id="haskell-like-dollar-syntax">Haskell-like dollar syntax</a></h2>
 <p>Too many parens?</p>
 <pre><code class="language-gobba">f (g (h (i 1 2 3)))
@@ -325,82 +321,19 @@ newline at the end of the line.</p>
 <p>Is equivalent to</p>
 <pre><code class="language-haskell">f $ g $ h $ i 1 2 3
 </code></pre>
-<h2><a class="header" href="#purity-of-gobba-code" id="purity-of-gobba-code">Purity of gobba code</a></h2>
-<p>The gobba interpreter statically infers whether expression you declare are
-<em>numerical</em>, <em>pure</em> or <em>impure</em>. An impure expression is a computation that
-calls primitives that have side effects, such as direct memory access or I/O
-access. Pure expressions are those expressions that do not imply side effects.
-Numerical expressions are the purest computations that operate only on numerical
-values. By default, the interpreter is in a <code>uncertain</code> state, it means that it
-will allow evaluation of pure expressions, and will allow impure code to be
-executed only if inside an <code>impure</code> statement.</p>
-<p>To be <code>impure</code>, an expression must contain an explicit <code>impure</code> statement or a
-call to an impure language primitive such as <code>IO:print</code>. You can enforce purity
-explicitely, inside an expression by wrapping it into the <code>pure</code> and <code>impure</code>
-statements, followed by an expression.</p>
-<p>It is good practice to reduce the use of the <code>pure/impure</code> keywords as much as
-possible, and to avoid using it inside of function bodies. This means keeping
-your code as purely functional as you can.</p>
-<p>Here is an example:</p>
-<pre><code class="language-gobba">let bad_function = fun x -&gt;
-    impure (let mystring =
-        &quot;I am a bad impure function! Also: &quot; ++ x in
-        IO:print_endline mystring );
-
-let good_function = fun x -&gt;
-    IO:print_endline (&quot;I am a good function! Also: &quot; ++ x) ;
-</code></pre>
-<p>The following function call is causing side effects and will error</p>
-<pre><code class="language-gobba">bad_function &quot;hello!&quot; ;
-</code></pre>
-<p>The above will error, because it is trying to execute
-an impure computation in a pure environment</p>
-<pre><code class="language-gobba">good_function &quot;hello! I should error&quot; ;
-</code></pre>
-<p>Here's a good way of calling it</p>
-<pre><code class="language-gobba">impure $ good_function &quot;hello!&quot; ;
-</code></pre>
-<p>You can specify that you DO NOT want to compute impure
-expressions by using the pure statement
-We want the following to error because it contains an impure computation.</p>
-<pre><code class="language-gobba">pure $ good_function &quot;henlo world! I should error&quot; ;
-</code></pre>
-<p>The above will error because a pure contest
-does not allow nesting an impure contest inside</p>
-<pre><code class="language-gobba">pure $ bad_function &quot;ciao mondo! I should error&quot; ;
-</code></pre>
-<p>A good way of structuring your code is keeping <code>pure/impure</code> statements as
-external from expressions as you can (towards the top level).</p>
-<h2><a class="header" href="#sequencing--operator" id="sequencing--operator">Sequencing (&gt;&gt;) operator</a></h2>
-<p>Keep in mind that every expression</p>
-<h2><a class="header" href="#function-pipes-reverse-composition-and-composition" id="function-pipes-reverse-composition-and-composition">Function pipes (reverse composition) and composition</a></h2>
-<p>You can redirect the result of a function to the first argument of another
-function using the <code>&gt;=&gt;</code> operator.</p>
-<pre><code class="language-gobba">let sum_and_add_one = (fun x y -&gt; x + y) &gt;=&gt; (fun z -&gt; z + 1) ;
-sum_and_add_one 2 3
-(* Will output 6, because 2 + 3 is piped into z + 1*)
-</code></pre>
-<p>Yields the same result as normal composition:</p>
-<pre><code class="language-gobba">let my_sum = (fun x y -&gt; x + y) ;
-let add_one = (fun z -&gt; z + 1) ;
-(add_one &lt;=&lt; my_sum) 2 3 = add_one (my_sum 2 3) ;
-(* The operator &lt;=&lt; means compose *)
-(add_one &lt;=&lt; my_sum) = (my_sum &gt;=&gt; add_one) ;
-(* This is also true! *)
-</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="install.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../install.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="stdlib.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../basics/purity.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -412,13 +345,13 @@ let add_one = (fun z -&gt; z + 1) ;
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a href="install.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a href="../install.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a href="stdlib.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a href="../basics/purity.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
@@ -456,14 +389,14 @@ let add_one = (fun z -&gt; z + 1) ;
         
 
         
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
         
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
         

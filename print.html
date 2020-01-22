@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded "><a href="install.html"><strong aria-hidden="true">1.</strong> Installation</a></li><li class="expanded "><a href="basics.html"><strong aria-hidden="true">2.</strong> The Basics</a></li><li class="expanded "><a href="stdlib.html"><strong aria-hidden="true">3.</strong> The Standard Library</a></li><li class="expanded "><a href="ocaml.html"><strong aria-hidden="true">4.</strong> Calling Gobba from OCaml</a></li></ol>
+                <ol class="chapter"><li class="expanded "><a href="install.html"><strong aria-hidden="true">1.</strong> Installation</a></li><li class="expanded "><a href="basics/index.html"><strong aria-hidden="true">2.</strong> The Basics</a></li><li><ol class="section"><li class="expanded "><a href="basics/purity.html"><strong aria-hidden="true">2.1.</strong> Purity and IO</a></li></ol></li><li class="expanded "><a href="stdlib.html"><strong aria-hidden="true">3.</strong> The Standard Library</a></li><li class="expanded "><a href="ocaml.html"><strong aria-hidden="true">4.</strong> Calling Gobba from OCaml</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -379,10 +379,6 @@ Dict:haskey &quot;newkey&quot; m (* =&gt; true *)
 Dict:foldl (fun x y -&gt; x + y) 0 m;
 Dict:foldr (fun x y -&gt; x - y) 10 m;
 </code></pre>
-<h2><a class="header" href="#primitives-and-printing" id="primitives-and-printing">Primitives and printing</a></h2>
-<p>The impure primitives <code>IO:print</code> and <code>IO:print_endline</code> automatically call <code>show</code> on a
-value. The difference between them is that <code>IO:print_endline</code> automatically adds a
-newline at the end of the line.</p>
 <h2><a class="header" href="#haskell-like-dollar-syntax" id="haskell-like-dollar-syntax">Haskell-like dollar syntax</a></h2>
 <p>Too many parens?</p>
 <pre><code class="language-gobba">f (g (h (i 1 2 3)))
@@ -391,6 +387,15 @@ newline at the end of the line.</p>
 <pre><code class="language-haskell">f $ g $ h $ i 1 2 3
 </code></pre>
 <h2><a class="header" href="#purity-of-gobba-code" id="purity-of-gobba-code">Purity of gobba code</a></h2>
+<p>From <a href="https://en.wikipedia.org/wiki/Pure_function">Wikipedia</a>:</p>
+<blockquote>
+<p>In computer programming, a pure function is a function that has the following properties:
+Its return value is the same for the same arguments (no variation with local
+static variables, non-local variables, mutable reference arguments or input
+streams from I/O devices). Its evaluation has no side effects (no mutation of
+local static variables, non-local variables, mutable reference arguments or I/O
+streams).</p>
+</blockquote>
 <p>The gobba interpreter statically infers whether expression you declare are
 <em>numerical</em>, <em>pure</em> or <em>impure</em>. An impure expression is a computation that
 calls primitives that have side effects, such as direct memory access or I/O
@@ -437,24 +442,62 @@ does not allow nesting an impure contest inside</p>
 <p>A good way of structuring your code is keeping <code>pure/impure</code> statements as
 external from expressions as you can (towards the top level).</p>
 <h2><a class="header" href="#sequencing--operator" id="sequencing--operator">Sequencing (&gt;&gt;) operator</a></h2>
-<p>Keep in mind that every expression</p>
+<p>Keep in mind that every expression is either numerical, pure or impure.
+You may like, as in imperative languages, to do operations sequentially one after another.
+Newcomers may be confused by the <code>;</code> symbol at the end of expressions. This special symbol signals gobba that the current command is over, and everything after <code>;</code> is another command.
+A command is either a global declaration, a directive call or an expression to be evaluated.
+You may want to sequence operations inside of expressions. To do so, you can use the <code>&gt;&gt;</code> operator.
+The <code>&gt;&gt;</code> operator is called <em>the sequencing operator</em> or the <em>then</em> operator and what it does is straightforward:</p>
+<blockquote>
+<p>Evaluate the expression on the left, discard the result and <strong>then</strong> evaluate the expression on the right.</p>
+</blockquote>
+<p>Here's a simple example: since 12.4 is greater than 3, this snippet of code will
+print &quot;Good maths!&quot; on the standard output, and then (<code>&gt;&gt;</code>) the variable <code>c</code>
+will be assigned to <code>a * c</code>, precisely <code>37.2</code>.</p>
+<pre><code class="language-gobba">let a = 12.4 and b = 3 ;
+let c =
+    if a &lt; b then
+        impure $ IO:print_endline &quot;Bad maths!&quot; &gt;&gt;
+        a + b
+    else
+        impure $ IO:print_endline &quot;Good maths!&quot; &gt;&gt;
+        a * b ;
+</code></pre>
 <h2><a class="header" href="#function-pipes-reverse-composition-and-composition" id="function-pipes-reverse-composition-and-composition">Function pipes (reverse composition) and composition</a></h2>
 <p>You can redirect the result of a function to the first argument of another
-function using the <code>&gt;=&gt;</code> operator.</p>
+function using the <code>&gt;=&gt;</code> operator. The <code>&lt;=&lt;</code> operator does the same thing but in reverse.
+The following example will output 6, because 2 + 3 is piped into z + 1</p>
 <pre><code class="language-gobba">let sum_and_add_one = (fun x y -&gt; x + y) &gt;=&gt; (fun z -&gt; z + 1) ;
 sum_and_add_one 2 3
-(* Will output 6, because 2 + 3 is piped into z + 1*)
 </code></pre>
-<p>Yields the same result as normal composition:</p>
+<p>The composition operators yield the same result as normal function composition:</p>
 <pre><code class="language-gobba">let my_sum = (fun x y -&gt; x + y) ;
 let add_one = (fun z -&gt; z + 1) ;
 (add_one &lt;=&lt; my_sum) 2 3 = add_one (my_sum 2 3) ;
-(* The operator &lt;=&lt; means compose *)
-(add_one &lt;=&lt; my_sum) = (my_sum &gt;=&gt; add_one) ;
-(* This is also true! *)
+</code></pre>
+<p>The operator <code>&lt;=&lt;</code> means <em>compose</em>, the following example evaluates to true:</p>
+<pre><code class="language-gobba">(add_one &lt;=&lt; my_sum) = (my_sum &gt;=&gt; add_one) ;
 </code></pre>
 <h1><a class="header" href="#the-gobba-standard-library" id="the-gobba-standard-library">The Gobba Standard Library</a></h1>
 <p>TODO</p>
+<p>Most standard library functions are organized in modules. The main modules are</p>
+<ul>
+<li><code>IO</code>: All the impure Input/Output functionality is contained in this module.</li>
+<li><code>Char</code>: Common operations on characters.</li>
+<li><code>List</code>: Simple and higher-order functions to manipulate lists.</li>
+<li><code>Dict</code>: Simple and higher-order operations on dictionaries.</li>
+<li><code>String</code>:  Common string operations.</li>
+</ul>
+<p>Some other basic primitives are defined on the toplevel, those are:</p>
+<ul>
+<li><code>show val</code>: Gives you a string representation of any value.</li>
+<li><code>typeof val</code>: Gives you the string representation of the type of a value.</li>
+<li><code>failwith message</code>: Fail the current computation with an error message</li>
+</ul>
+<h2><a class="header" href="#primitives-and-printing" id="primitives-and-printing">Primitives and printing</a></h2>
+<p>The impure primitives <code>IO:print</code> and <code>IO:print_endline</code> automatically call <code>show</code> on a
+value. The difference between them is that <code>IO:print_endline</code> automatically adds a
+newline at the end of the line.</p>
 <h1><a class="header" href="#calling-gobba-from-your-ocaml-programs" id="calling-gobba-from-your-ocaml-programs">Calling gobba from your OCaml programs</a></h1>
 <p>You may want to use gobba as an embedded language in your OCaml projects. Just
 add gobba as a dependency and you can call gobba code from OCaml fairly easily.
