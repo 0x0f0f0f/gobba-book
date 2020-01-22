@@ -149,12 +149,12 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#the-gobba-programming-language-basics" id="the-gobba-programming-language-basics">The Gobba Programming Language Basics</a></h1>
-<h3><a class="header" href="#comments" id="comments">Comments</a></h3>
+<h2><a class="header" href="#comments" id="comments">Comments</a></h2>
 <p>Comments are treated by gobba as whitespace and consequently ignored. Comments
 can be nested and are multi-line by default, and can be written as following:</p>
 <pre><code class="language-gobba">(* This is a comment *)
 </code></pre>
-<h3><a class="header" href="#numbers-arithmetics-and-the-numerical-tower" id="numbers-arithmetics-and-the-numerical-tower">Numbers, Arithmetics and the Numerical Tower</a></h3>
+<h2><a class="header" href="#numbers-arithmetics-and-the-numerical-tower" id="numbers-arithmetics-and-the-numerical-tower">Numbers, Arithmetics and the Numerical Tower</a></h2>
 <p>Gobba supports 3 kinds of numbers: integers, floats and complex numbers.
 Floating point numbers' decimal part can be omitted if it is 0. Floats also
 support the scientific notation in literal values. Complex numbers literals are
@@ -185,7 +185,7 @@ Floating point numbers can use the power syntax using <code>e</code>.</p>
 (* *)
 1. / 2.315 ;
 </code></pre>
-<h3><a class="header" href="#boolean-literals-and-arithmetic" id="boolean-literals-and-arithmetic">Boolean literals and arithmetic</a></h3>
+<h2><a class="header" href="#boolean-literals-and-arithmetic" id="boolean-literals-and-arithmetic">Boolean literals and arithmetic</a></h2>
 <p>The boolean literals in gobba are <code>true</code> and <code>false</code>. There are also operators
 for the logical AND and OR: <code>&amp;&amp;</code> and <code>||</code>. The comparison operators return
 boolean values and are:</p>
@@ -197,10 +197,10 @@ boolean values and are:</p>
 <p>Here's an example:</p>
 <pre><code class="language-gobba">true &amp;&amp; false || (1 &lt; 2) &amp;&amp; (1 = 1) ;
 </code></pre>
-<h3><a class="header" href="#character-literals" id="character-literals">Character literals.</a></h3>
+<h2><a class="header" href="#character-literals" id="character-literals">Character literals.</a></h2>
 <p>The same as all the other languages: Single characters enclosed in <code>'</code> are character literals,
 such as <code>'a'</code> or <code>'\n'</code>. UTF-8 support is planned for a future release.</p>
-<h3><a class="header" href="#strings" id="strings">Strings</a></h3>
+<h2><a class="header" href="#strings" id="strings">Strings</a></h2>
 <p>Strings are values enclosed in double quotation marks.
 Here is how to concatenate strings</p>
 <pre><code class="language-gobba">&quot;hello &quot; ++ &quot;world&quot;
@@ -208,7 +208,7 @@ Here is how to concatenate strings</p>
 String:concat &quot;hello &quot; &quot;world&quot;
 </code></pre>
 <p>To convert any value to a string you can use the <code>show</code> primitive.</p>
-<h3><a class="header" href="#lists" id="lists">Lists</a></h3>
+<h2><a class="header" href="#lists" id="lists">Lists</a></h2>
 <p>Lists are enclosed in square brackets and values are separated by commas.
 Lists are heterogeneous, so any value in a list can have a different type from
 the other elements of the list.</p>
@@ -241,7 +241,7 @@ are defined in the <code>List</code> module:</p>
 <pre><code class="language-gobba">List:foldl (fun x y -&gt; x - y) 10 [1, 2, 3, 4] ;
 List:foldr (fun x y -&gt; x - y) 10 [1, 2, 3, 4] ;
 </code></pre>
-<h3><a class="header" href="#declarations" id="declarations">Declarations</a></h3>
+<h2><a class="header" href="#declarations" id="declarations">Declarations</a></h2>
 <p>Local declaration statements are purely functional and straightforward:</p>
 <pre><code class="language-gobba">let x = 4 and y = 1 in x + y
 </code></pre>
@@ -255,7 +255,7 @@ a + 3 ;
 variables by prefixing the name of the variables with the <code>lazy</code> keyword.</p>
 <pre><code class="language-gobba">let x = 2 and lazy y = (3 + 4) ;
 </code></pre>
-<h3><a class="header" href="#toplevel-directives" id="toplevel-directives">Toplevel Directives</a></h3>
+<h2><a class="header" href="#toplevel-directives" id="toplevel-directives">Toplevel Directives</a></h2>
 <p>Toplevel directives can be used in both files and the REPL. Like in OCaml, they
 start with a <code>#</code> symbol. Note that toplevel directives are not expressions and
 they can only be used in a file (or REPL) top level, and cannot be used inside expressions.</p>
@@ -274,7 +274,7 @@ will be wrapped in a dictionary, that acts as a module:</p>
 <li><code>#dumpenv ()</code> and <code>#dumppurityenv ()</code> dump the current environments.</li>
 <li><code>#pure ()</code>, <code>#impure ()</code> and <code>#uncertain ()</code> set the globally allowed purity level.</li>
 </ul>
-<h3><a class="header" href="#functions-and-recursion" id="functions-and-recursion">Functions and recursion</a></h3>
+<h2><a class="header" href="#functions-and-recursion" id="functions-and-recursion">Functions and recursion</a></h2>
 <p>For parsing simplicity, only the OCaml anonymous function style of declaring
 functions is supported. The keyword <code>fun</code> is interchangeable with <code>lambda</code>.</p>
 <pre><code class="language-gobba">(fun x -&gt; x + 1) 1;
@@ -291,7 +291,7 @@ let f = (fun x y z -&gt; x + y + z) in f 1 2 3 ;
 let f = (fun x y z -&gt; x + y + z) in f 1 2 ;
 (* result: (fun z -&gt; ... ) - fun - Partial application *)
 </code></pre>
-<h3><a class="header" href="#dictionaries-and-modules" id="dictionaries-and-modules">Dictionaries and modules.</a></h3>
+<h2><a class="header" href="#dictionaries-and-modules" id="dictionaries-and-modules">Dictionaries and modules.</a></h2>
 <p>Dictionary (object) values are similar to Javascript objects. The difference
 from javascript is that the keys of an existing dictionary are treated as
 symbols, and values can be lazy.</p>
@@ -314,18 +314,18 @@ Dict:haskey &quot;newkey&quot; m (* =&gt; true *)
 Dict:foldl (fun x y -&gt; x + y) 0 m;
 Dict:foldr (fun x y -&gt; x - y) 10 m;
 </code></pre>
-<h3><a class="header" href="#primitives-and-printing" id="primitives-and-printing">Primitives and printing</a></h3>
+<h2><a class="header" href="#primitives-and-printing" id="primitives-and-printing">Primitives and printing</a></h2>
 <p>The impure primitives <code>IO:print</code> and <code>IO:print_endline</code> automatically call <code>show</code> on a
 value. The difference between them is that <code>IO:print_endline</code> automatically adds a
 newline at the end of the line.</p>
-<h3><a class="header" href="#haskell-like-dollar-syntax" id="haskell-like-dollar-syntax">Haskell-like dollar syntax</a></h3>
+<h2><a class="header" href="#haskell-like-dollar-syntax" id="haskell-like-dollar-syntax">Haskell-like dollar syntax</a></h2>
 <p>Too many parens?</p>
 <pre><code class="language-gobba">f (g (h (i 1 2 3)))
 </code></pre>
 <p>Is equivalent to</p>
 <pre><code class="language-haskell">f $ g $ h $ i 1 2 3
 </code></pre>
-<h3><a class="header" href="#purity-of-gobba-code" id="purity-of-gobba-code">Purity of gobba code</a></h3>
+<h2><a class="header" href="#purity-of-gobba-code" id="purity-of-gobba-code">Purity of gobba code</a></h2>
 <p>The gobba interpreter statically infers whether expression you declare are
 <em>numerical</em>, <em>pure</em> or <em>impure</em>. An impure expression is a computation that
 calls primitives that have side effects, such as direct memory access or I/O
@@ -371,9 +371,9 @@ does not allow nesting an impure contest inside</p>
 </code></pre>
 <p>A good way of structuring your code is keeping <code>pure/impure</code> statements as
 external from expressions as you can (towards the top level).</p>
-<h3><a class="header" href="#sequencing--operator" id="sequencing--operator">Sequencing (&gt;&gt;) operator</a></h3>
+<h2><a class="header" href="#sequencing--operator" id="sequencing--operator">Sequencing (&gt;&gt;) operator</a></h2>
 <p>Keep in mind that every expression</p>
-<h3><a class="header" href="#function-pipes-reverse-composition-and-composition" id="function-pipes-reverse-composition-and-composition">Function pipes (reverse composition) and composition</a></h3>
+<h2><a class="header" href="#function-pipes-reverse-composition-and-composition" id="function-pipes-reverse-composition-and-composition">Function pipes (reverse composition) and composition</a></h2>
 <p>You can redirect the result of a function to the first argument of another
 function using the <code>&gt;=&gt;</code> operator.</p>
 <pre><code class="language-gobba">let sum_and_add_one = (fun x y -&gt; x + y) &gt;=&gt; (fun z -&gt; z + 1) ;
