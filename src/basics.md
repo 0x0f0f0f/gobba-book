@@ -1,13 +1,13 @@
 # The Gobba Programming Language Basics
 
-### Comments
+## Comments
 Comments are treated by gobba as whitespace and consequently ignored. Comments
 can be nested and are multi-line by default, and can be written as following:
 ```gobba
 (* This is a comment *)
 ```
 
-### Numbers, Arithmetics and the Numerical Tower
+## Numbers, Arithmetics and the Numerical Tower
 Gobba supports 3 kinds of numbers: integers, floats and complex numbers.
 Floating point numbers' decimal part can be omitted if it is 0. Floats also
 support the scientific notation in literal values. Complex numbers literals are
@@ -43,7 +43,7 @@ Floating point numbers can use the power syntax using `e`.
 1. / 2.315 ;
 ```
 
-### Boolean literals and arithmetic
+## Boolean literals and arithmetic
 The boolean literals in gobba are `true` and `false`. There are also operators
 for the logical AND and OR: `&&` and `||`. The comparison operators return
 boolean values and are:
@@ -56,11 +56,11 @@ Here's an example:
 true && false || (1 < 2) && (1 = 1) ;
 ```
 
-### Character literals.
+## Character literals.
 The same as all the other languages: Single characters enclosed in `'` are character literals,
 such as `'a'` or `'\n'`. UTF-8 support is planned for a future release.
 
-### Strings
+## Strings
 Strings are values enclosed in double quotation marks.
 Here is how to concatenate strings
 ```gobba
@@ -70,7 +70,7 @@ String:concat "hello " "world"
 ```
 To convert any value to a string you can use the `show` primitive.
 
-### Lists
+## Lists
 Lists are enclosed in square brackets and values are separated by commas.
 Lists are heterogeneous, so any value in a list can have a different type from
 the other elements of the list.
@@ -124,7 +124,7 @@ List:foldr (fun x y -> x - y) 10 [1, 2, 3, 4] ;
 
 
 
-### Declarations
+## Declarations
 Local declaration statements are purely functional and straightforward:
 ```gobba
 let x = 4 and y = 1 in x + y
@@ -144,7 +144,7 @@ variables by prefixing the name of the variables with the `lazy` keyword.
 let x = 2 and lazy y = (3 + 4) ;
 ```
 
-### Toplevel Directives
+## Toplevel Directives
 Toplevel directives can be used in both files and the REPL. Like in OCaml, they
 start with a `#` symbol. Note that toplevel directives are not expressions and
 they can only be used in a file (or REPL) top level, and cannot be used inside expressions.
@@ -168,7 +168,7 @@ will be wrapped in a dictionary, that acts as a module:
 * `#pure ()`, `#impure ()` and `#uncertain ()` set the globally allowed purity level.
 
 
-### Functions and recursion
+## Functions and recursion
 For parsing simplicity, only the OCaml anonymous function style of declaring
 functions is supported. The keyword `fun` is interchangeable with `lambda`.  
 ```gobba
@@ -191,7 +191,7 @@ let f = (fun x y z -> x + y + z) in f 1 2 ;
 ```
 
 
-### Dictionaries and modules.
+## Dictionaries and modules.
 Dictionary (object) values are similar to Javascript objects. The difference
 from javascript is that the keys of an existing dictionary are treated as
 symbols, and values can be lazy.
@@ -223,14 +223,14 @@ Dict:foldl (fun x y -> x + y) 0 m;
 Dict:foldr (fun x y -> x - y) 10 m;
 ```
 
-### Primitives and printing
+## Primitives and printing
 The impure primitives `IO:print` and `IO:print_endline` automatically call `show` on a
 value. The difference between them is that `IO:print_endline` automatically adds a
 newline at the end of the line.
 
 
 
-### Haskell-like dollar syntax
+## Haskell-like dollar syntax
 Too many parens?
 ```gobba
 f (g (h (i 1 2 3)))
@@ -240,7 +240,7 @@ Is equivalent to
 f $ g $ h $ i 1 2 3
 ```
 
-### Purity of gobba code
+## Purity of gobba code
 The gobba interpreter statically infers whether expression you declare are
 *numerical*, *pure* or *impure*. An impure expression is a computation that
 calls primitives that have side effects, such as direct memory access or I/O
@@ -303,10 +303,10 @@ pure $ bad_function "ciao mondo! I should error" ;
 A good way of structuring your code is keeping `pure/impure` statements as
 external from expressions as you can (towards the top level).
 
-### Sequencing (>>) operator
+## Sequencing (>>) operator
 Keep in mind that every expression  
 
-### Function pipes (reverse composition) and composition
+## Function pipes (reverse composition) and composition
 You can redirect the result of a function to the first argument of another
 function using the `>=>` operator.
 ```gobba
