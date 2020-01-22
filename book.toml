@@ -1,0 +1,6 @@
+[book]
+authors = ["0x0f0f0f"]
+language = "en"
+multilingual = false
+src = "src"
+title = "The Gobba Programming Language Handbook"
