@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Installation - The Gobba Programming Language Handbook</title>
+        <title>Introduction - The Gobba Programming Language Handbook</title>
         
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded "><a href="install.html"><strong aria-hidden="true">1.</strong> Installation</a></li><li class="expanded "><a href="basics/index.html"><strong aria-hidden="true">2.</strong> The Basics</a></li><li><ol class="section"><li class="expanded "><a href="basics/purity.html"><strong aria-hidden="true">2.1.</strong> Purity and IO</a></li></ol></li><li class="expanded "><a href="stdlib.html"><strong aria-hidden="true">3.</strong> The Standard Library</a></li><li class="expanded "><a href="ocaml.html"><strong aria-hidden="true">4.</strong> Calling Gobba from OCaml</a></li></ol>
+                <ol class="chapter"><li class="expanded "><a href="index.html" class="active"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="expanded "><a href="install.html"><strong aria-hidden="true">2.</strong> Installation</a></li><li class="expanded "><a href="basics/index.html"><strong aria-hidden="true">3.</strong> The Basics</a></li><li><ol class="section"><li class="expanded "><a href="basics/purity.html"><strong aria-hidden="true">3.1.</strong> Purity and IO</a></li></ol></li><li class="expanded "><a href="stdlib.html"><strong aria-hidden="true">4.</strong> The Standard Library</a></li><li class="expanded "><a href="ocaml.html"><strong aria-hidden="true">5.</strong> Calling Gobba from OCaml</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -148,68 +148,27 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#installation" id="installation">Installation</a></h1>
-<p>To install, you need to have <code>opam</code> (OCaml's package manager with a version greater than 2.0) and a recent OCaml
-distribution installed on your system.
-You can install <strong>gobba</strong> by running</p>
-<pre><code class="language-bash">opam install gobba
-</code></pre>
-<h3><a class="header" href="#manual-installation" id="manual-installation">Manual installation</a></h3>
-<pre><code class="language-bash"># clone the repository
-git clone https://github.com/0x0f0f0f/gobba
-# cd into it
-cd gobba
-# install dependencies
-opam install dune menhir ANSITerminal cmdliner alcotest bisect_ppx ocamline
-# compile
-make
-# test
-make test
-# run
-make run
-# rlwrap is suggested
-rlwrap make run
-# you can install gobba with
-make install
-# run again
-rlwrap gobba
-</code></pre>
-<h2><a class="header" href="#usage" id="usage">Usage</a></h2>
-<p>The executable name is <code>gobba</code>. If a file is specified as the first command
-line argument, then it will be run as a program. If you are running a program you may want to use the flag <code>-p</code> to print the results of the expressions that are evaluated. Otherwise, if a program is not specified a REPL session will
-be opened.</p>
-<p>Keep in mind that <strong>gobba</strong> is purely functional and values
-are immutable by default!</p>
-<h3><a class="header" href="#command-line-options" id="command-line-options">Command Line Options</a></h3>
+                        <h1><a class="header" href="#welcome-to-the-gobba-programming-language-handbook" id="welcome-to-the-gobba-programming-language-handbook">Welcome to the Gobba Programming Language Handbook</a></h1>
+<h1><a class="header" href="#p-aligncenterimg-altgobba-srcgobbapng-width--25-p" id="p-aligncenterimg-altgobba-srcgobbapng-width--25-p"><p align="center"><img alt="gobba" src="/gobba.png" width = 25% /></p></a></h1>
+<hr />
+<p><strong>gobba</strong> is a dynamically typed and purely functional interpreted
+programming language, heavily inspired from the OCaml,
+Haskell and Scheme languages. It is based on Professors Gianluigi Ferrari and Francesca Levi's
+<a href="http://pages.di.unipi.it/levi/codice-18/evalFunEnvFull.ml">minicaml</a> interpreter example. The goal for gobba is to be a practical language
+with built in support for scientific computing, solving some of the problems
+that exist in other dynamically typed interpreted languages like python and
+Javascript.</p>
+<h2><a class="header" href="#features" id="features">Features</a></h2>
 <ul>
-<li>
-<p><code>--help[=FMT] (default=auto)</code>:
-Show this help in format FMT. The value FMT must be one of <code>auto</code>,
-<code>pager</code>, <code>groff</code> or <code>plain</code>. With <code>auto', the format is </code>pager<code>or
-   </code>plain' whenever the TERM env var is `dumb' or undefined.</p>
-</li>
-<li>
-<p><code>--internals</code>:
-To print or not the language's internal stack traces</p>
-</li>
-<li>
-<p><code>-m MAXSTACKDEPTH, --maxstackdepth=MAXSTACKDEPTH (absent=10)</code>:
-The maximum level of nested expressions to print in a stack trace.</p>
-</li>
-<li>
-<p><code>-p, --printexprs</code>:
-If set, print the result of expressions when evaluating a program
-from file</p>
-</li>
-<li>
-<p><code>-v VERBOSITY, --verbose=VERBOSITY (absent=0)</code>:
-If 1, Print AST to stderr after expressions are entered in the
-REPL. If 2, also print reduction steps</p>
-</li>
-<li>
-<p><code>--version</code>
-Show version information.</p>
-</li>
+<li>C and Haskell-like syntax with lexical scoping</li>
+<li>Only immutable variables</li>
+<li>Dynamically typed</li>
+<li>Eager (default) and lazy evaluation</li>
+<li>Simple but effective module system</li>
+<li>Interactive REPL with readline-like features such as completion, search and hints</li>
+<li>The REPL has didactical debugging option to print expression ASTs and every reduction step.</li>
+<li>Static inference to separate pure and impure computations</li>
+<li>A lot more coming in the next releases...</li>
 </ul>
 
                     </main>
@@ -219,7 +178,7 @@ Show version information.</p>
                         
 
                         
-                            <a rel="next" href="basics/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="install.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -233,7 +192,7 @@ Show version information.</p>
                 
 
                 
-                    <a href="basics/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a href="install.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
