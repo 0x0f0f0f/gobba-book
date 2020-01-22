@@ -32,7 +32,7 @@ rlwrap gobba
 ## Usage
 
 The executable name is `gobba`. If a file is specified as the first command
-line argument, then it will be ran as a program. If you are running a program you may want to use the flag `-p` to print the results of the expressions that are evaluated. Otherwise, if a program is not specified a REPL session will
+line argument, then it will be run as a program. If you are running a program you may want to use the flag `-p` to print the results of the expressions that are evaluated. Otherwise, if a program is not specified a REPL session will
 be opened.
 
 Keep in mind that **gobba** is purely functional and values
