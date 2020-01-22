@@ -1,5 +1,6 @@
 # Summary
 
+- [Introduction](./index.md)
 - [Installation](./install.md)
 - [The Basics](./basics/index.md)
     - [Purity and IO](./basics/purity.md)

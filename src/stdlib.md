@@ -1,6 +1,6 @@
 # The Gobba Standard Library
 
-TODO
+This chapter is a work in progress.
 
 Most standard library functions are organized in modules. The main modules are
 * `IO`: All the impure Input/Output functionality is contained in this module.
