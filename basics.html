@@ -149,30 +149,111 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#the-gobba-programming-language-basics" id="the-gobba-programming-language-basics">The Gobba Programming Language Basics</a></h1>
-<h3><a class="header" href="#arithmetics-with-full-scheme-like-numeric-tower" id="arithmetics-with-full-scheme-like-numeric-tower">Arithmetics with full scheme-like numeric tower</a></h3>
-<p>Integer division returns an integer if the modulo is 0, and returns a float
-otherwise. Floating point numbers decimal part can be omitted if it is 0.
-Floating point numbers can use the power syntax using <code>e</code>.</p>
-<pre><code class="language-ocaml">1 + 2 + 3 * (4 - 1) ;
-1 + 4.0 - 1. / 2.315 ;
-1.2e-3 ;
-true &amp;&amp; false || (1 &lt; 2) &amp;&amp; (1 = 1) ;
+<h3><a class="header" href="#comments" id="comments">Comments</a></h3>
+<p>Comments are treated by gobba as whitespace and consequently ignored. Comments
+can be nested and are multi-line by default, and can be written as following:</p>
+<pre><code class="language-gobba">(* This is a comment *)
 </code></pre>
-<h3><a class="header" href="#complex-numbers" id="complex-numbers">Complex numbers</a></h3>
-<p>The <code>:+</code> and operators are used to create complex values, the number
-on the left will be the real part and the one on the right will be allocated as the imaginary part.</p>
-<pre><code class="language-ocaml">12.1 :+ 1.23;
+<h3><a class="header" href="#numbers-arithmetics-and-the-numerical-tower" id="numbers-arithmetics-and-the-numerical-tower">Numbers, Arithmetics and the Numerical Tower</a></h3>
+<p>Gobba supports 3 kinds of numbers: integers, floats and complex numbers.
+Floating point numbers' decimal part can be omitted if it is 0. Floats also
+support the scientific notation in literal values. Complex numbers literals are
+&quot;allocated&quot; from other two numbers with the <code>:+</code> operator. The number
+on the left will be the real part and the one on the right will be allocated as
+the imaginary part.</p>
+<pre><code class="language-gobba">(* Integer literals *)
+1 ;
+0 ;
+10350156 ;
+(* Floating Point Literals *)
+1.2e-3 ;
+0.0 ;
+0.123 ;
+34. ;
+4.3e9 ;
+(* Complex Number Literals *)
+12.1 :+ 1.23;
 0 :+ 1.12;
+</code></pre>
+<p>Arithmetical operations are straightforward. If an arithmetical operation
+is called on different types of numbers, the result is &quot;raised&quot; to the &quot;most inclusive&quot; type of numbers.
+For example, Integer division returns an integer if the modulo is 0, and returns a float
+otherwise.
+Floating point numbers can use the power syntax using <code>e</code>.</p>
+<pre><code class="language-gobba">(* Addition, multiplication and subtraction *)
+1 + 2 + 3 * (4 - 1) ;
+(* *)
+1. / 2.315 ;
+</code></pre>
+<h3><a class="header" href="#boolean-literals-and-arithmetic" id="boolean-literals-and-arithmetic">Boolean literals and arithmetic</a></h3>
+<p>The boolean literals in gobba are <code>true</code> and <code>false</code>. There are also operators
+for the logical AND and OR: <code>&amp;&amp;</code> and <code>||</code>. The comparison operators return
+boolean values and are:</p>
+<ul>
+<li><code>a = b</code>: True if and only if the two objects are the same</li>
+<li><code>a &gt; b</code> and <code>a &gt;= b</code>: Greater and greater or equal</li>
+<li><code>a &lt; b</code> and <code>a &lt;= b</code>: Less and less or equal</li>
+</ul>
+<p>Here's an example:</p>
+<pre><code class="language-gobba">true &amp;&amp; false || (1 &lt; 2) &amp;&amp; (1 = 1) ;
+</code></pre>
+<h3><a class="header" href="#character-literals" id="character-literals">Character literals.</a></h3>
+<p>The same as all the other languages: Single characters enclosed in <code>'</code> are character literals,
+such as <code>'a'</code> or <code>'\n'</code>. UTF-8 support is planned for a future release.</p>
+<h3><a class="header" href="#strings" id="strings">Strings</a></h3>
+<p>Strings are values enclosed in double quotation marks.
+Here is how to concatenate strings</p>
+<pre><code class="language-gobba">&quot;hello &quot; ++ &quot;world&quot;
+(* It is the same as *)
+String:concat &quot;hello &quot; &quot;world&quot;
+</code></pre>
+<p>To convert any value to a string you can use the <code>show</code> primitive.</p>
+<h3><a class="header" href="#lists" id="lists">Lists</a></h3>
+<p>Lists are enclosed in square brackets and values are separated by commas.
+Lists are heterogeneous, so any value in a list can have a different type from
+the other elements of the list.</p>
+<pre><code class="language-gobba">[1, 2, &quot;ciao&quot;, 4, 5] ;
+</code></pre>
+<p><code>::</code> is the classic <code>cons</code> operator. It inserts the element on the left at the beginning of the list.
+This is done in <code>O(1)</code> time.
+The <code>++</code> operator is used for list and string concatenation.</p>
+<pre><code class="language-haskell">1 :: [2] ++ [3]
+</code></pre>
+<p>To access the n-th value of a list, use the <code>@</code> operator, called &quot;at&quot;. List indexes begin from 0.</p>
+<pre><code class="language-gobba">[1, 2, 3, 4] @ 0 (* =&gt; 1 *)
+[1, 2, 3, 4] @ 2 (* =&gt; 3 *)
+</code></pre>
+<p>In gobba, the classic functional programming functions and morphisms on lists
+are defined in the <code>List</code> module:</p>
+<p>Get the length of a list (done in <code>O(n)</code> time).</p>
+<pre><code class="language-gobba">List:length [1, 2, 3, 4] ;
+</code></pre>
+<p>Get the element at the beginning of a list</p>
+<pre><code class="language-gobba">List:head [1, 2, 3, 4] ;
+</code></pre>
+<p>Get another list with the first element removed</p>
+<pre><code class="language-gobba">List:tail [1, 2, 3, 4] ;
+</code></pre>
+<p>Iterate a function over every list value and return a new list</p>
+<pre><code class="language-gobba">List:map (fun x -&gt; x + 1) [1, 2, 3, 4] ;
+</code></pre>
+<p>List folding: see the <a href="https://en.wikipedia.org/wiki/Fold_(higher-order_function)">Wikipedia Page</a></p>
+<pre><code class="language-gobba">List:foldl (fun x y -&gt; x - y) 10 [1, 2, 3, 4] ;
+List:foldr (fun x y -&gt; x - y) 10 [1, 2, 3, 4] ;
 </code></pre>
 <h3><a class="header" href="#declarations" id="declarations">Declarations</a></h3>
 <p>Local declaration statements are purely functional and straightforward:</p>
-<pre><code class="language-ocaml">let x = 4 and y = 1 in x + y
+<pre><code class="language-gobba">let x = 4 and y = 1 in x + y
 </code></pre>
 <p>Global declaration statements create new, purely functional environments in both
 programs and the REPL. Omitting <code>in</code> is syntax-sugar, subsequent blocks will
 be evaluated in the resulting new environment.</p>
-<pre><code class="language-ocaml">let a = 2 ;
-x + 3 ;
+<pre><code class="language-gobba">let a = 2 ;
+a + 3 ;
+</code></pre>
+<p>You can declare <a href="https://en.wikipedia.org/wiki/Lazy_evaluation">lazily evaluated</a>
+variables by prefixing the name of the variables with the <code>lazy</code> keyword.</p>
+<pre><code class="language-gobba">let x = 2 and lazy y = (3 + 4) ;
 </code></pre>
 <h3><a class="header" href="#toplevel-directives" id="toplevel-directives">Toplevel Directives</a></h3>
 <p>Toplevel directives can be used in both files and the REPL. Like in OCaml, they
@@ -181,50 +262,27 @@ they can only be used in a file (or REPL) top level, and cannot be used inside e
 <p><code>#include</code> loads a file at a position relative to the current directory (if in
 the REPL) or the directory containing the current running file (in file mode).
 The declarations in the included file will be included in the current toplevel environment:</p>
-<pre><code class="language-ocaml">#include &quot;examples/fibonacci.mini&quot;
+<pre><code class="language-gobba">#include &quot;examples/fibonacci.mini&quot; ;
 </code></pre>
 <p><code>#module</code> loads a file like <code>#include</code> but the declarations in the included file
 will be wrapped in a dictionary, that acts as a module:</p>
-<pre><code class="language-ocaml">#module &quot;examples/fibonacci.mini&quot;
+<pre><code class="language-gobba">#module &quot;examples/fibonacci.mini&quot; ;
 (* Declarations will be available in module *) Fibonacci
 </code></pre>
-<p><code>#verbosity n</code> sets verbosity level to <code>n</code>. There are &quot;unit&quot; directives:
-<code>#dumpenv ()</code> and <code>#dumppurityenv ()</code> dump the current environments. <code>#pure ()</code>,
-<code>#impure ()</code> and <code>#uncertain ()</code> set the globally allowed purity level.</p>
-<h3><a class="header" href="#character-literals" id="character-literals">Character literals.</a></h3>
-<p>The same as all the other languages: Single characters enclosed in <code>'</code> are character literals,
-such as <code>'a'</code> or <code>'\n'</code>. UTF-8 support is planned for a future release.</p>
-<h3><a class="header" href="#strings-and-lists" id="strings-and-lists">Strings and Lists</a></h3>
-<p>Here is how to concatenate strings</p>
-<pre><code class="language-haskell">&quot;hello &quot; ++ &quot;world&quot;
-(* It is the same as *)
-String:concat &quot;hello &quot; &quot;world&quot;
-</code></pre>
-<p>To convert any value to a string you can use the <code>show</code> primitive.</p>
-<p><code>::</code> means is the classic <code>cons</code> operator, while <code>++</code> is used for list and string concatenation</p>
-<pre><code class="language-haskell">1 :: [2] ++ [3]
-</code></pre>
-<p>To access nth value of a list, the <code>@</code> (at) operator is used. Lists are indexed from 0.</p>
-<pre><code class="language-ocaml">[1, 2, 3, 4] @ 0 (* =&gt; 1 *)
-[1, 2, 3, 4] @ 2 (* =&gt; 3 *)
-</code></pre>
-<p>In gobba, the classic functional programming functions and morphisms on lists
-are defined in the <code>List</code> module:</p>
-<pre><code class="language-ocaml">List:head [1, 2, 3, 4] ;
-List:tail [1, 2, 3, 4] ;
-List:map (fun x -&gt; x + 1) [1, 2, 3, 4] ;
-List:foldl (fun x y -&gt; x - y) 10 [1, 2, 3, 4] ;
-List:foldr (fun x y -&gt; x - y) 10 [1, 2, 3, 4] ;
-</code></pre>
+<ul>
+<li><code>#verbosity n</code> sets verbosity level to <code>n</code>. There are &quot;unit&quot; directives:</li>
+<li><code>#dumpenv ()</code> and <code>#dumppurityenv ()</code> dump the current environments.</li>
+<li><code>#pure ()</code>, <code>#impure ()</code> and <code>#uncertain ()</code> set the globally allowed purity level.</li>
+</ul>
 <h3><a class="header" href="#functions-and-recursion" id="functions-and-recursion">Functions and recursion</a></h3>
 <p>For parsing simplicity, only the OCaml anonymous function style of declaring
 functions is supported. The keyword <code>fun</code> is interchangeable with <code>lambda</code>.</p>
-<pre><code class="language-ocaml">(fun x -&gt; x + 1) 1;
+<pre><code class="language-gobba">(fun x -&gt; x + 1) 1;
 let fib = fun n -&gt; if n &lt; 2 then n else (fib (n - 1)) + fib (n - 2)
 </code></pre>
 <p>Functions are abstracted into a single parameter chain of functions, and they
 can be partially applied:</p>
-<pre><code class="language-ocaml">(fun x y z -&gt; x + y + z) = (fun x -&gt; fun y -&gt; fun z -&gt; x + y + z) ;
+<pre><code class="language-gobba">(fun x y z -&gt; x + y + z) = (fun x -&gt; fun y -&gt; fun z -&gt; x + y + z) ;
 (* result: true - bool - This is true!! *)
 
 let f = (fun x y z -&gt; x + y + z) in f 1 2 3 ;
@@ -242,17 +300,17 @@ assignments in <code>let</code> statements. This is because there is a strict ap
 towards simplicity in the parsing logic and language syntax. A difference from
 <code>let</code> statements, is that values in dictionaries can only access the
 lexical scope <strong>outside</strong> of the dictionary.</p>
-<pre><code class="language-ocaml">let n = {hola = 1, lazy mondo = 2, somefunc = fun x -&gt; x + 1 } ;
+<pre><code class="language-gobba">let n = {hola = 1, lazy mondo = 2, somefunc = fun x -&gt; x + 1 } ;
 let m = Dict:insert &quot;newkey&quot; 123 n ;
 m = {newkey = 123, hola = 1, mondo = 2, somefunc = fun x -&gt; x + 1 } (* =&gt; true *)
 Dict:haskey &quot;newkey&quot; m (* =&gt; true *)
 (* =&gt; {newkey = 124, hola = 2, mondo = 3} *)
 </code></pre>
 <p>An element of a dictionary can be accessed using the <code>:</code> infix operator.</p>
-<pre><code class="language-ocaml">m:hola (* returns 1 *)
+<pre><code class="language-gobba">m:hola (* returns 1 *)
 </code></pre>
 <p>Some morphisms are defined in the <code>Dict</code> module.</p>
-<pre><code class="language-ocaml">Dict:map (fun x -&gt; x + 1) m;
+<pre><code class="language-gobba">Dict:map (fun x -&gt; x + 1) m;
 Dict:foldl (fun x y -&gt; x + y) 0 m;
 Dict:foldr (fun x y -&gt; x - y) 10 m;
 </code></pre>
@@ -262,67 +320,74 @@ value. The difference between them is that <code>IO:print_endline</code> automat
 newline at the end of the line.</p>
 <h3><a class="header" href="#haskell-like-dollar-syntax" id="haskell-like-dollar-syntax">Haskell-like dollar syntax</a></h3>
 <p>Too many parens?</p>
-<pre><code class="language-ocaml">f (g (h (i 1 2 3)))
+<pre><code class="language-gobba">f (g (h (i 1 2 3)))
 </code></pre>
 <p>Is equivalent to</p>
 <pre><code class="language-haskell">f $ g $ h $ i 1 2 3
 </code></pre>
-<h3><a class="header" href="#toggle-between-pure-and-impure-environments-in-code-for-io" id="toggle-between-pure-and-impure-environments-in-code-for-io">Toggle between pure and impure environments in code for I/O</a></h3>
-<p>You can choose to enable or disable impure primitives explicitely, inside an
-expression by wrapping it into the <code>pure</code> and <code>impure</code> statements. They must be
-followed by an expression. An expression contained in an <code>impure</code> statement is a
-computation that calls primitives that have side effects, such as direct memory
-access or I/O access.</p>
+<h3><a class="header" href="#purity-of-gobba-code" id="purity-of-gobba-code">Purity of gobba code</a></h3>
+<p>The gobba interpreter statically infers whether expression you declare are
+<em>numerical</em>, <em>pure</em> or <em>impure</em>. An impure expression is a computation that
+calls primitives that have side effects, such as direct memory access or I/O
+access. Pure expressions are those expressions that do not imply side effects.
+Numerical expressions are the purest computations that operate only on numerical
+values. By default, the interpreter is in a <code>uncertain</code> state, it means that it
+will allow evaluation of pure expressions, and will allow impure code to be
+executed only if inside an <code>impure</code> statement.</p>
+<p>To be <code>impure</code>, an expression must contain an explicit <code>impure</code> statement or a
+call to an impure language primitive such as <code>IO:print</code>. You can enforce purity
+explicitely, inside an expression by wrapping it into the <code>pure</code> and <code>impure</code>
+statements, followed by an expression.</p>
 <p>It is good practice to reduce the use of the <code>pure/impure</code> keywords as much as
 possible, and to avoid using it inside of function bodies. This means keeping
 your code as purely functional as you can.</p>
-<pre><code class="language-ocaml">let bad_function = fun x -&gt;
+<p>Here is an example:</p>
+<pre><code class="language-gobba">let bad_function = fun x -&gt;
     impure (let mystring =
         &quot;I am a bad impure function! Also: &quot; ++ x in
         IO:print_endline mystring );
 
 let good_function = fun x -&gt;
     IO:print_endline (&quot;I am a good function! Also: &quot; ++ x) ;
-
-bad_function &quot;hello!&quot; ;
-(* The above statement is causing side effects and will error *)
-
-good_function &quot;hello! I should error&quot; ;
-(* The above will error, because it is trying to execute
-an impure computation in a pure environment
-Here's a good way of calling it *)
-impure $ good_function &quot;hello!&quot; ;
-
-(* You can specify that you DO NOT want to compute impure
-expressions by using the pure statement *)
-pure $ good_function &quot;henlo world! I should error&quot; ;
-(* The above will error because
-it contains an impure computation*)
-pure $ bad_function &quot;ciao mondo! I should error&quot; ;
-(* The above will error because a pure contest
-does not allow nesting an impure contest inside *)
+</code></pre>
+<p>The following function call is causing side effects and will error</p>
+<pre><code class="language-gobba">bad_function &quot;hello!&quot; ;
+</code></pre>
+<p>The above will error, because it is trying to execute
+an impure computation in a pure environment</p>
+<pre><code class="language-gobba">good_function &quot;hello! I should error&quot; ;
+</code></pre>
+<p>Here's a good way of calling it</p>
+<pre><code class="language-gobba">impure $ good_function &quot;hello!&quot; ;
+</code></pre>
+<p>You can specify that you DO NOT want to compute impure
+expressions by using the pure statement
+We want the following to error because it contains an impure computation.</p>
+<pre><code class="language-gobba">pure $ good_function &quot;henlo world! I should error&quot; ;
+</code></pre>
+<p>The above will error because a pure contest
+does not allow nesting an impure contest inside</p>
+<pre><code class="language-gobba">pure $ bad_function &quot;ciao mondo! I should error&quot; ;
 </code></pre>
 <p>A good way of structuring your code is keeping <code>pure/impure</code> statements as
-external from expressions as you can (towards the top level). By default, the
-interpreter is in a <code>uncertain</code> state, it means that it will allow the execution
-of <code>impure</code> statements</p>
+external from expressions as you can (towards the top level).</p>
+<h3><a class="header" href="#sequencing--operator" id="sequencing--operator">Sequencing (&gt;&gt;) operator</a></h3>
+<p>Keep in mind that every expression</p>
 <h3><a class="header" href="#function-pipes-reverse-composition-and-composition" id="function-pipes-reverse-composition-and-composition">Function pipes (reverse composition) and composition</a></h3>
 <p>You can redirect the result of a function to the first argument of another
 function using the <code>&gt;=&gt;</code> operator.</p>
-<pre><code class="language-ocaml">let sum_and_add_one = (fun x y -&gt; x + y) &gt;=&gt; (fun z -&gt; z + 1) ;
+<pre><code class="language-gobba">let sum_and_add_one = (fun x y -&gt; x + y) &gt;=&gt; (fun z -&gt; z + 1) ;
 sum_and_add_one 2 3
 (* Will output 6, because 2 + 3 is piped into z + 1*)
 </code></pre>
 <p>Yields the same result as normal composition:</p>
-<pre><code class="language-ocaml">let my_sum = (fun x y -&gt; x + y) ;
+<pre><code class="language-gobba">let my_sum = (fun x y -&gt; x + y) ;
 let add_one = (fun z -&gt; z + 1) ;
 (add_one &lt;=&lt; my_sum) 2 3 = add_one (my_sum 2 3) ;
 (* The operator &lt;=&lt; means compose *)
 (add_one &lt;=&lt; my_sum) = (my_sum &gt;=&gt; add_one) ;
 (* This is also true! *)
 </code></pre>
-<h3><a class="header" href="#sequencing--operator" id="sequencing--operator">Sequencing (&gt;&gt;) operator</a></h3>
-<p>TODO</p>
 
                     </main>
 
