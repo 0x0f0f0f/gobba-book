@@ -1,0 +1,231 @@
+# The Gobba Programming Language Basics
+
+### Arithmetics with full scheme-like numeric tower
+Integer division returns an integer if the modulo is 0, and returns a float
+otherwise. Floating point numbers decimal part can be omitted if it is 0.
+Floating point numbers can use the power syntax using `e`.
+```ocaml
+1 + 2 + 3 * (4 - 1) ;
+1 + 4.0 - 1. / 2.315 ;
+1.2e-3 ;
+true && false || (1 < 2) && (1 = 1) ;
+```
+
+### Complex numbers
+The `:+` and operators are used to create complex values, the number
+on the left will be the real part and the one on the right will be allocated as the imaginary part.
+```ocaml
+12.1 :+ 1.23;
+0 :+ 1.12;
+```
+
+
+### Declarations
+Local declaration statements are purely functional and straightforward:
+```ocaml
+let x = 4 and y = 1 in x + y
+```
+
+Global declaration statements create new, purely functional environments in both
+programs and the REPL. Omitting `in` is syntax-sugar, subsequent blocks will
+be evaluated in the resulting new environment.
+```ocaml
+let a = 2 ;
+x + 3 ;
+```
+
+### Toplevel Directives
+Toplevel directives can be used in both files and the REPL. Like in OCaml, they
+start with a `#` symbol. Note that toplevel directives are not expressions and
+they can only be used in a file (or REPL) top level, and cannot be used inside expressions.
+
+`#include` loads a file at a position relative to the current directory (if in
+the REPL) or the directory containing the current running file (in file mode).
+The declarations in the included file will be included in the current toplevel environment:
+```ocaml
+#include "examples/fibonacci.mini"
+```
+
+`#module` loads a file like `#include` but the declarations in the included file
+will be wrapped in a dictionary, that acts as a module:
+```ocaml
+#module "examples/fibonacci.mini"
+(* Declarations will be available in module *) Fibonacci
+```
+
+`#verbosity n` sets verbosity level to `n`. There are "unit" directives:
+`#dumpenv ()` and `#dumppurityenv ()` dump the current environments. `#pure ()`,
+`#impure ()` and `#uncertain ()` set the globally allowed purity level.
+
+### Character literals.
+The same as all the other languages: Single characters enclosed in `'` are character literals,
+such as `'a'` or `'\n'`. UTF-8 support is planned for a future release.
+
+### Strings and Lists
+Here is how to concatenate strings
+```haskell
+"hello " ++ "world"
+(* It is the same as *)
+String:concat "hello " "world"
+```
+
+To convert any value to a string you can use the `show` primitive.
+
+`::` means is the classic `cons` operator, while `++` is used for list and string concatenation
+```haskell
+1 :: [2] ++ [3]
+```
+
+To access nth value of a list, the `@` (at) operator is used. Lists are indexed from 0.
+
+```ocaml
+[1, 2, 3, 4] @ 0 (* => 1 *)
+[1, 2, 3, 4] @ 2 (* => 3 *)
+```
+
+In gobba, the classic functional programming functions and morphisms on lists
+are defined in the `List` module:
+```ocaml
+List:head [1, 2, 3, 4] ;
+List:tail [1, 2, 3, 4] ;
+List:map (fun x -> x + 1) [1, 2, 3, 4] ;
+List:foldl (fun x y -> x - y) 10 [1, 2, 3, 4] ;
+List:foldr (fun x y -> x - y) 10 [1, 2, 3, 4] ;
+```
+
+
+### Functions and recursion
+For parsing simplicity, only the OCaml anonymous function style of declaring
+functions is supported. The keyword `fun` is interchangeable with `lambda`.  
+```ocaml
+(fun x -> x + 1) 1;
+let fib = fun n -> if n < 2 then n else (fib (n - 1)) + fib (n - 2)
+```
+
+Functions are abstracted into a single parameter chain of functions, and they
+can be partially applied:
+
+```ocaml
+(fun x y z -> x + y + z) = (fun x -> fun y -> fun z -> x + y + z) ;
+(* result: true - bool - This is true!! *)
+
+let f = (fun x y z -> x + y + z) in f 1 2 3 ;
+(* result: 6 - int - Function application *)
+
+let f = (fun x y z -> x + y + z) in f 1 2 ;
+(* result: (fun z -> ... ) - fun - Partial application *)
+```
+
+
+### Dictionaries and modules.
+Dictionary (object) values are similar to Javascript objects. The difference
+from javascript is that the keys of an existing dictionary are treated as
+symbols, and values can be lazy.
+
+You may have noticed that dictionary fields are syntactically similar to the
+assignments in `let` statements. This is because there is a strict approach
+towards simplicity in the parsing logic and language syntax. A difference from
+`let` statements, is that values in dictionaries can only access the
+lexical scope **outside** of the dictionary.
+
+
+```ocaml
+let n = {hola = 1, lazy mondo = 2, somefunc = fun x -> x + 1 } ;
+let m = Dict:insert "newkey" 123 n ;
+m = {newkey = 123, hola = 1, mondo = 2, somefunc = fun x -> x + 1 } (* => true *)
+Dict:haskey "newkey" m (* => true *)
+(* => {newkey = 124, hola = 2, mondo = 3} *)
+```
+
+An element of a dictionary can be accessed using the `:` infix operator.
+```ocaml
+m:hola (* returns 1 *)
+```
+
+Some morphisms are defined in the `Dict` module.
+```ocaml
+Dict:map (fun x -> x + 1) m;
+Dict:foldl (fun x y -> x + y) 0 m;
+Dict:foldr (fun x y -> x - y) 10 m;
+```
+
+### Primitives and printing
+The impure primitives `IO:print` and `IO:print_endline` automatically call `show` on a
+value. The difference between them is that `IO:print_endline` automatically adds a
+newline at the end of the line.
+
+
+
+### Haskell-like dollar syntax
+Too many parens?
+```ocaml
+f (g (h (i 1 2 3)))
+```
+Is equivalent to
+```haskell
+f $ g $ h $ i 1 2 3
+```
+
+### Toggle between pure and impure environments in code for I/O
+You can choose to enable or disable impure primitives explicitely, inside an
+expression by wrapping it into the `pure` and `impure` statements. They must be
+followed by an expression. An expression contained in an `impure` statement is a
+computation that calls primitives that have side effects, such as direct memory
+access or I/O access.
+
+It is good practice to reduce the use of the `pure/impure` keywords as much as
+possible, and to avoid using it inside of function bodies. This means keeping
+your code as purely functional as you can.
+```ocaml
+let bad_function = fun x ->
+    impure (let mystring =
+        "I am a bad impure function! Also: " ++ x in
+        IO:print_endline mystring );
+
+let good_function = fun x ->
+    IO:print_endline ("I am a good function! Also: " ++ x) ;
+
+bad_function "hello!" ;
+(* The above statement is causing side effects and will error *)
+
+good_function "hello! I should error" ;
+(* The above will error, because it is trying to execute
+an impure computation in a pure environment
+Here's a good way of calling it *)
+impure $ good_function "hello!" ;
+
+(* You can specify that you DO NOT want to compute impure
+expressions by using the pure statement *)
+pure $ good_function "henlo world! I should error" ;
+(* The above will error because
+it contains an impure computation*)
+pure $ bad_function "ciao mondo! I should error" ;
+(* The above will error because a pure contest
+does not allow nesting an impure contest inside *)
+```
+
+A good way of structuring your code is keeping `pure/impure` statements as
+external from expressions as you can (towards the top level). By default, the
+interpreter is in a `uncertain` state, it means that it will allow the execution
+of `impure` statements
+
+### Function pipes (reverse composition) and composition
+You can redirect the result of a function to the first argument of another
+function using the `>=>` operator.
+```ocaml
+let sum_and_add_one = (fun x y -> x + y) >=> (fun z -> z + 1) ;
+sum_and_add_one 2 3
+(* Will output 6, because 2 + 3 is piped into z + 1*)
+```
+Yields the same result as normal composition:
+```ocaml
+let my_sum = (fun x y -> x + y) ;
+let add_one = (fun z -> z + 1) ;
+(add_one <=< my_sum) 2 3 = add_one (my_sum 2 3) ;
+(* The operator <=< means compose *)
+(add_one <=< my_sum) = (my_sum >=> add_one) ;
+(* This is also true! *)
+```
+
+### Sequencing (>>) operator
+TODO

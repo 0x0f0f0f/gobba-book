@@ -1,4 +1,5 @@
 # Summary
 
-- [The Basics](./chapter_1.md)
-- [Calling Gobba](./chapter_2.md)
+- [Installation](./install.md)
+- [The Basics](./basics.md)
+- [Calling Gobba from OCaml](./ocaml.md)
