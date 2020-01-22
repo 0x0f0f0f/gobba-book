@@ -148,7 +148,19 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#calling-gobba" id="calling-gobba">Calling Gobba</a></h1>
+                        <h1><a class="header" href="#calling-gobba-from-your-ocaml-programs" id="calling-gobba-from-your-ocaml-programs">Calling gobba from your OCaml programs</a></h1>
+<p>You may want to use gobba as an embedded language in your OCaml projects. Just
+add gobba as a dependency and you can call gobba code from OCaml fairly easily.
+Keep in mind that <strong>gobba</strong> is dynamically typed and if you want to do something
+with the results of gobba evaluation you will have to extract the values with
+the unpacking functions.</p>
+<pre><code class="language-ocaml">(* !!! This not code written in gobba, this is OCaml !!! *)
+(* Run a gobba string and retrieve the value and resulting state *)
+let x, state = Gobba.Repl.run_string &quot;3.14 * (4.0001)&quot; () in
+(* The expression is not altering the state, so let's throw it away *)
+let _ = state and extracted_value = Gobba.Typecheck.unpack_float x in
+print_float extracted_value
+</code></pre>
 
                     </main>
 
@@ -179,6 +191,21 @@
 
         </div>
 
+        
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
         
 
         
