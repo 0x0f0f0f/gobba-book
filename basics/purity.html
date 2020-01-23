@@ -158,14 +158,14 @@ streams from I/O devices). Its evaluation has no side effects (no mutation of
 local static variables, non-local variables, mutable reference arguments or I/O
 streams).</p>
 </blockquote>
-<p>The gobba interpreter statically infers whether expression you declare are
-<em>numerical</em>, <em>pure</em> or <em>impure</em>. An impure expression is a computation that
-calls primitives that have side effects, such as direct memory access or I/O
-access. Pure expressions are those expressions that do not imply side effects.
-Numerical expressions are the purest computations that operate only on numerical
-values. By default, the interpreter is in a <code>uncertain</code> state, it means that it
-will allow evaluation of pure expressions, and will allow impure code to be
-executed only if inside an <code>impure</code> statement.</p>
+<p>The gobba interpreter statically infers whether the expressions you run in your
+programs are <em>numerical</em>, <em>pure</em> or <em>impure</em>. An impure expression is a
+computation that calls primitives that have side effects, such as direct memory
+access or I/O access. Pure expressions are those expressions that do not imply
+side effects. Numerical expressions are the purest computations that operate
+only on numerical values. By default, the interpreter is in a <code>uncertain</code> state,
+it means that it will allow evaluation of pure expressions, and will allow
+impure code to be executed only if inside an <code>impure</code> statement.</p>
 <p>To be <code>impure</code>, an expression must contain an explicit <code>impure</code> statement or a
 call to an impure language primitive such as <code>IO:print</code>. You can enforce purity
 explicitely, inside an expression by wrapping it into the <code>pure</code> and <code>impure</code>

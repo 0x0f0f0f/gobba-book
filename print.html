@@ -151,15 +151,17 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#welcome-to-the-gobba-programming-language-handbook" id="welcome-to-the-gobba-programming-language-handbook">Welcome to the Gobba Programming Language Handbook</a></h1>
-<h1><a class="header" href="#p-aligncenterimg-altgobba-srcgobbapng-width--25-p" id="p-aligncenterimg-altgobba-srcgobbapng-width--25-p"><p align="center"><img alt="gobba" src="/gobba.png" width = 25% /></p></a></h1>
+<h1><a class="header" href="#p-aligncenterimg-altgobba-srcgobbapng-width--25-p" id="p-aligncenterimg-altgobba-srcgobbapng-width--25-p"><p align="center"><img alt="gobba" src="gobba.png" width = 25% /></p></a></h1>
 <hr />
-<p><strong>gobba</strong> is a dynamically typed and purely functional interpreted
-programming language, heavily inspired from the OCaml,
-Haskell and Scheme languages. It is based on Professors Gianluigi Ferrari and Francesca Levi's
-<a href="http://pages.di.unipi.it/levi/codice-18/evalFunEnvFull.ml">minicaml</a> interpreter example. The goal for gobba is to be a practical language
-with built in support for scientific computing, solving some of the problems
-that exist in other dynamically typed interpreted languages like python and
-Javascript.</p>
+<p><strong>gobba</strong> is a dynamically typed and purely functional interpreted programming
+language, heavily inspired from the OCaml, Haskell and Scheme languages. It is
+based on Professors Gianluigi Ferrari and Francesca Levi's
+<a href="http://pages.di.unipi.it/levi/codice-18/evalFunEnvFull.ml">minicaml</a>
+interpreter example. The goal for gobba is to be a practical language with built
+in support for scientific computing, solving some of the problems that exist in
+other dynamically typed interpreted languages like python and Javascript.  A
+primary goal is also to offer a compromise between solidity, ease of learning
+and the ability to express ideas quickly in the language.</p>
 <h2><a class="header" href="#features" id="features">Features</a></h2>
 <ul>
 <li>C and Haskell-like syntax with lexical scoping</li>
@@ -418,14 +420,14 @@ streams from I/O devices). Its evaluation has no side effects (no mutation of
 local static variables, non-local variables, mutable reference arguments or I/O
 streams).</p>
 </blockquote>
-<p>The gobba interpreter statically infers whether expression you declare are
-<em>numerical</em>, <em>pure</em> or <em>impure</em>. An impure expression is a computation that
-calls primitives that have side effects, such as direct memory access or I/O
-access. Pure expressions are those expressions that do not imply side effects.
-Numerical expressions are the purest computations that operate only on numerical
-values. By default, the interpreter is in a <code>uncertain</code> state, it means that it
-will allow evaluation of pure expressions, and will allow impure code to be
-executed only if inside an <code>impure</code> statement.</p>
+<p>The gobba interpreter statically infers whether the expressions you run in your
+programs are <em>numerical</em>, <em>pure</em> or <em>impure</em>. An impure expression is a
+computation that calls primitives that have side effects, such as direct memory
+access or I/O access. Pure expressions are those expressions that do not imply
+side effects. Numerical expressions are the purest computations that operate
+only on numerical values. By default, the interpreter is in a <code>uncertain</code> state,
+it means that it will allow evaluation of pure expressions, and will allow
+impure code to be executed only if inside an <code>impure</code> statement.</p>
 <p>To be <code>impure</code>, an expression must contain an explicit <code>impure</code> statement or a
 call to an impure language primitive such as <code>IO:print</code>. You can enforce purity
 explicitely, inside an expression by wrapping it into the <code>pure</code> and <code>impure</code>
