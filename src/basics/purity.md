@@ -9,14 +9,14 @@ From [Wikipedia](https://en.wikipedia.org/wiki/Pure_function):
 > streams).
 
 
-The gobba interpreter statically infers whether expression you declare are
-*numerical*, *pure* or *impure*. An impure expression is a computation that
-calls primitives that have side effects, such as direct memory access or I/O
-access. Pure expressions are those expressions that do not imply side effects.
-Numerical expressions are the purest computations that operate only on numerical
-values. By default, the interpreter is in a `uncertain` state, it means that it
-will allow evaluation of pure expressions, and will allow impure code to be
-executed only if inside an `impure` statement.
+The gobba interpreter statically infers whether the expressions you run in your
+programs are *numerical*, *pure* or *impure*. An impure expression is a
+computation that calls primitives that have side effects, such as direct memory
+access or I/O access. Pure expressions are those expressions that do not imply
+side effects. Numerical expressions are the purest computations that operate
+only on numerical values. By default, the interpreter is in a `uncertain` state,
+it means that it will allow evaluation of pure expressions, and will allow
+impure code to be executed only if inside an `impure` statement.
 
 
 To be `impure`, an expression must contain an explicit `impure` statement or a
