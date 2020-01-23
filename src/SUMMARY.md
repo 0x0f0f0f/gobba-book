@@ -6,3 +6,5 @@
     - [Purity and IO](./basics/purity.md)
 - [The Standard Library](./stdlib.md)
 - [Calling Gobba from OCaml](./ocaml.md)
+- [Internals](./internals/index.md)
+    - [Grammar](./internals/grammar.md)

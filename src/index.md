@@ -25,3 +25,12 @@ and the ability to express ideas quickly in the language.
 * The REPL has didactical debugging option to print expression ASTs and every reduction step.
 * Static inference to separate pure and impure computations
 * A lot more coming in the next releases...
+
+## Thanks to
+
+
+- Prof. Gian-Luigi Ferrari and Francesca Levi for teaching us how to project and develop interpreters in OCaml
+- Kevin Fontanari for the pixel art gobba mascotte.
+- Antonio DeLucreziis for helping me implement lazy evaluation.
+- Prof. Alessandro Berarducci for helping me study lambda calculus in deep.
+- Giorgio Mossa for helping me polish the lambda-closure mechanism.

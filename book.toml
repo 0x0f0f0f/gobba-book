@@ -4,3 +4,6 @@ language = "en"
 multilingual = false
 src = "src"
 title = "The Gobba Programming Language Handbook"
+
+[output.html]
+mathjax-support = true
