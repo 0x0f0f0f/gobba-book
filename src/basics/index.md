@@ -163,6 +163,12 @@ will be wrapped in a dictionary, that acts as a module:
 (* Declarations will be available in module *) Fibonacci
 ```
 
+`#open` takes a module name and imports everything that is contained in that module into the 
+toplevel environment:
+```
+#open Math;
+```
+
 * `#verbosity n` sets verbosity level to `n`. There are "unit" directives:
 * `#dumpenv ()` and `#dumppurityenv ()` dump the current environments.
 * `#pure ()`, `#impure ()` and `#uncertain ()` set the globally allowed purity level.
