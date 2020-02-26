@@ -25,6 +25,7 @@ This is the full parsing grammar for the gobba language:
 <directive> ::= DIRECTIVE STRING
               | DIRECTIVE INTEGER
               | DIRECTIVE UNIT
+              | DIRECTIVE SYMBOL
 
 <ast_expr> ::= <ast_app_expr>
              | <ast_expr> CONS <ast_expr>
@@ -45,6 +46,7 @@ This is the full parsing grammar for the gobba language:
              | <ast_expr> COMPLEX <ast_expr>
              | <ast_expr> TIMES <ast_expr>
              | <ast_expr> DIV <ast_expr>
+             | <ast_expr> TOPOWER <ast_expr>
              | IF <ast_expr> THEN <ast_expr> ELSE <ast_expr>
              | <def> IN <ast_expr>
              | LAMBDA SYMBOL+ LARROW <ast_expr>

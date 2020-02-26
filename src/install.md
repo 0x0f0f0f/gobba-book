@@ -2,7 +2,17 @@
 
 To install, you need to have `opam` (OCaml's package manager with a version greater than 2.0) and a recent OCaml
 distribution installed on your system.
-You can install **gobba** by running
+
+**gobba** has 3 main development dependencies you have to install on your system:
+
+* `cblas`
+* `openblas`
+* `lapacke`
+
+These packages may or may not be present in the package repositories of your operating system.
+If they are, please be sure to install the development versions of these packages.
+
+You can then install **gobba** by running
 ```bash
 opam install gobba
 ```
