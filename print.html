@@ -1,159 +1,109 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js light">
+<html lang="en" class="sidebar-visible no-js">
     <head>
         <!-- Book generated using mdBook -->
-        <meta charset="UTF-8">
+        <meta charset="utf-8">
         <title>The Gobba Programming Language Handbook</title>
-        
-        <meta name="robots" content="noindex" />
-        
-
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
         <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
         <link rel="stylesheet" href="css/print.css" media="print">
-
-        <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
-
-        <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
-
-        <!-- Custom theme stylesheets -->
-        
-
-        
-        <!-- MathJax -->
-        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
             var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "light";
         </script>
+		<!-- Work around some values being stored in localStorage wrapped in quotes -->
+		<script type="text/javascript">
+			try {
+				var sidebar = localStorage.getItem('mdbook-sidebar');
 
-        <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
-            try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+				if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+					localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+				}
+			} catch (e) { }
+		</script>
 
-                if (theme.startsWith('"') && theme.endsWith('"')) {
-                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
-                }
+		<header>
+			<nav id="void-nav">
+				<ul>
+					<li><a id="skip-to-content" tabindex="1" href="#content">Skip to content</a></li>
+					<li>
+						<button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+								<path d="M1 3v2h18V3zm0 8h18V9H1zm0 6h18v-2H1z"/>
+							</svg>
+						</button>
+					</li>
+				
+					<li>
+						<button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+								<path d="M7.5 13c3.04 0 5.5-2.46 5.5-5.5S10.54 2 7.5 2 2 4.46 2 7.5 4.46 13 7.5 13zm4.55.46C10.79 14.43 9.21 15 7.5 15 3.36 15 0 11.64 0 7.5S3.36 0 7.5 0C11.64 0 15 3.36 15 7.5c0 1.71-.57 3.29-1.54 4.55l6.49 6.49-1.41 1.41-6.49-6.49z"/>
+							</svg>
+						</button>
+					</li>
+				
+				</ul>
+				<ul class="right">
+					<li><a href="http://www.voidlinux.org">Home</a></li>
+					<li><a href="http://www.voidlinux.org/news/">News</a></li>
+					<li><a href="http://www.voidlinux.org/download/">Download</a></li>
+					<li><a href="http://www.voidlinux.org/packages/">Packages</a></li>
+					<li><a href="https://docs.voidlinux.org">Documentation</a></li>
+					<li><a href="https://reddit.com/r/voidlinux">Forum</a></li>
+					<li><a href="https://github.com/void-linux">GitHub</a></li>
+				</ul>
+			</nav>
+		</header>
 
-                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
-                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
-                }
-            } catch (e) { }
-        </script>
+		<div id="content">
 
-        <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
-            var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
-            if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
-            html.classList.remove('no-js')
-            html.classList.remove('light')
-            html.classList.add(theme);
-            html.classList.add('js');
-        </script>
+			<!-- Hide / unhide sidebar before it is displayed -->
+			<script type="text/javascript">
+				var html = document.querySelector('html');
+				var sidebar = 'hidden';
+				if (document.body.clientWidth >= 1080) {
+					try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+					sidebar = sidebar || 'visible';
+				}
+				html.classList.remove('sidebar-visible');
+				html.classList.add("sidebar-" + sidebar);
+			</script>
 
-        <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
-            var html = document.querySelector('html');
-            var sidebar = 'hidden';
-            if (document.body.clientWidth >= 1080) {
-                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
-                sidebar = sidebar || 'visible';
-            }
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
-        </script>
+			<nav id="sidebar" aria-label="Table of contents">
+				<ol class="chapter"><li class="expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="expanded "><a href="install.html"><strong aria-hidden="true">2.</strong> Installation</a></li><li class="expanded "><a href="basics/index.html"><strong aria-hidden="true">3.</strong> The Basics</a></li><li><ol class="section"><li class="expanded "><a href="basics/purity.html"><strong aria-hidden="true">3.1.</strong> Purity and IO</a></li></ol></li><li class="expanded "><a href="stdlib/stdlib.html"><strong aria-hidden="true">4.</strong> The Standard Library</a></li><li class="expanded "><a href="ocaml.html"><strong aria-hidden="true">5.</strong> Calling Gobba from OCaml</a></li><li class="expanded "><a href="internals/index.html"><strong aria-hidden="true">6.</strong> Internals</a></li><li><ol class="section"><li class="expanded "><a href="internals/grammar.html"><strong aria-hidden="true">6.1.</strong> Grammar</a></li></ol></li></ol>
+			</nav>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="expanded "><a href="install.html"><strong aria-hidden="true">2.</strong> Installation</a></li><li class="expanded "><a href="basics/index.html"><strong aria-hidden="true">3.</strong> The Basics</a></li><li><ol class="section"><li class="expanded "><a href="basics/purity.html"><strong aria-hidden="true">3.1.</strong> Purity and IO</a></li></ol></li><li class="expanded "><a href="stdlib.html"><strong aria-hidden="true">4.</strong> The Standard Library</a></li><li class="expanded "><a href="ocaml.html"><strong aria-hidden="true">5.</strong> Calling Gobba from OCaml</a></li><li class="expanded "><a href="internals/index.html"><strong aria-hidden="true">6.</strong> Internals</a></li><li><ol class="section"><li class="expanded "><a href="internals/grammar.html"><strong aria-hidden="true">6.1.</strong> Grammar</a></li></ol></li></ol>
-            </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
-        </nav>
+			<!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+			<script type="text/javascript">
+				document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+	document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+	Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+		link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+	});
+			</script>
 
-        <div id="page-wrapper" class="page-wrapper">
+			<div id="page-wrapper">
+				
+				<div id="search-wrapper" class="hidden">
+					<form id="searchbar-outer" class="searchbar-outer">
+						<input type="search" name="search" id="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+					</form>
+					<div id="searchresults-outer" class="searchresults-outer hidden">
+						<div id="searchresults-header" class="searchresults-header"></div>
+						<ul id="searchresults">
+						</ul>
+					</div>
+				</div>
+				
 
-            <div class="page">
-                
-                <div id="menu-bar" class="menu-bar">
-                    <div id="menu-bar-sticky-container">
-                        <div class="left-buttons">
-                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                                <i class="fa fa-bars"></i>
-                            </button>
-                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                                <i class="fa fa-paint-brush"></i>
-                            </button>
-                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
-                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
-                            </ul>
-                            
-                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                                <i class="fa fa-search"></i>
-                            </button>
-                            
-                        </div>
-
-                        <h1 class="menu-title">The Gobba Programming Language Handbook</h1>
-
-                        <div class="right-buttons">
-                            <a href="print.html" title="Print this book" aria-label="Print this book">
-                                <i id="print-button" class="fa fa-print"></i>
-                            </a>
-                            
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
-                    </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
-                        </ul>
-                    </div>
-                </div>
-                
-
-                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
-                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
-                    });
-                </script>
-
-                <div id="content" class="content">
-                    <main>
-                        <h1><a class="header" href="#welcome-to-the-gobba-programming-language-handbook" id="welcome-to-the-gobba-programming-language-handbook">Welcome to the Gobba Programming Language Handbook</a></h1>
+				<main>
+					<h1><a class="header" href="#welcome-to-the-gobba-programming-language-handbook" id="welcome-to-the-gobba-programming-language-handbook">Welcome to the Gobba Programming Language Handbook</a></h1>
 <h1><a class="header" href="#p-aligncenterimg-altgobba-srcgobbapng-width--25-p" id="p-aligncenterimg-altgobba-srcgobbapng-width--25-p"><p align="center"><img alt="gobba" src="gobba.png" width = 25% /></p></a></h1>
 <hr />
 <p><strong>gobba</strong> is a dynamically typed and purely functional interpreted programming
@@ -187,8 +137,16 @@ and the ability to express ideas quickly in the language.</p>
 </ul>
 <h1><a class="header" href="#installation" id="installation">Installation</a></h1>
 <p>To install, you need to have <code>opam</code> (OCaml's package manager with a version greater than 2.0) and a recent OCaml
-distribution installed on your system.
-You can install <strong>gobba</strong> by running</p>
+distribution installed on your system.</p>
+<p><strong>gobba</strong> has 3 main development dependencies you have to install on your system:</p>
+<ul>
+<li><code>cblas</code></li>
+<li><code>openblas</code></li>
+<li><code>lapacke</code></li>
+</ul>
+<p>These packages may or may not be present in the package repositories of your operating system.
+If they are, please be sure to install the development versions of these packages.</p>
+<p>You can then install <strong>gobba</strong> by running</p>
 <pre><code class="language-bash">opam install gobba
 </code></pre>
 <h3><a class="header" href="#manual-installation" id="manual-installation">Manual installation</a></h3>
@@ -369,6 +327,10 @@ will be wrapped in a dictionary, that acts as a module:</p>
 <pre><code class="language-gobba">#module &quot;examples/fibonacci.mini&quot; ;
 (* Declarations will be available in module *) Fibonacci
 </code></pre>
+<p><code>#open</code> takes a module name and imports everything that is contained in that module into the 
+toplevel environment:</p>
+<pre><code>#open Math;
+</code></pre>
 <ul>
 <li><code>#verbosity n</code> sets verbosity level to <code>n</code>. There are &quot;unit&quot; directives:</li>
 <li><code>#dumpenv ()</code> and <code>#dumppurityenv ()</code> dump the current environments.</li>
@@ -522,6 +484,7 @@ let add_one = (fun z -&gt; z + 1) ;
 <li><code>List</code>: Simple and higher-order functions to manipulate lists.</li>
 <li><code>Dict</code>: Simple and higher-order operations on dictionaries.</li>
 <li><code>String</code>:  Common string operations.</li>
+<li><code>Math</code>: Common mathematical functionality</li>
 </ul>
 <p>Some other basic primitives are defined on the toplevel, those are:</p>
 <ul>
@@ -624,6 +587,7 @@ else failwith &quot;value is not iterable&quot;
 &lt;directive&gt; ::= DIRECTIVE STRING
               | DIRECTIVE INTEGER
               | DIRECTIVE UNIT
+              | DIRECTIVE SYMBOL
 
 &lt;ast_expr&gt; ::= &lt;ast_app_expr&gt;
              | &lt;ast_expr&gt; CONS &lt;ast_expr&gt;
@@ -644,6 +608,7 @@ else failwith &quot;value is not iterable&quot;
              | &lt;ast_expr&gt; COMPLEX &lt;ast_expr&gt;
              | &lt;ast_expr&gt; TIMES &lt;ast_expr&gt;
              | &lt;ast_expr&gt; DIV &lt;ast_expr&gt;
+             | &lt;ast_expr&gt; TOPOWER &lt;ast_expr&gt;
              | IF &lt;ast_expr&gt; THEN &lt;ast_expr&gt; ELSE &lt;ast_expr&gt;
              | &lt;def&gt; IN &lt;ast_expr&gt;
              | LAMBDA SYMBOL+ LARROW &lt;ast_expr&gt;
@@ -670,53 +635,15 @@ else failwith &quot;value is not iterable&quot;
                     | FLOAT
 </code></pre>
 
-                    </main>
+				</main>
 
-                    <nav class="nav-wrapper" aria-label="Page navigation">
-                        <!-- Mobile navigation buttons -->
-                        
+				<nav id="nav-wide-wrapper" aria-label="Page navigation">
+					
 
-                        
-
-                        <div style="clear: both"></div>
-                    </nav>
-                </div>
-            </div>
-
-            <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
-
-                
-            </nav>
-
-        </div>
-
-        
-        <!-- Livereload script (if served using the cli tool) -->
-        <script type="text/javascript">
-            var socket = new WebSocket("ws://localhost:3001");
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload(true); // force reload from server (not from cache)
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
-        
-
-        
-
-        
-        
-        
-        <script type="text/javascript">
-            window.playpen_copyable = true;
-        </script>
-        
+					
+				</nav>
+			</div>
+		</div>
 
         
 
@@ -726,24 +653,6 @@ else failwith &quot;value is not iterable&quot;
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
         
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
-
-        <!-- Custom JS scripts -->
-        
-
-        
-        
-        <script type="text/javascript">
-        window.addEventListener('load', function() {
-            MathJax.Hub.Register.StartupHook('End', function() {
-                window.setTimeout(window.print, 100);
-            });
-        });
-        </script>
-        
-        
-
     </body>
 </html>
